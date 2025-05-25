@@ -75,6 +75,30 @@ class Solution {
         }
         return primes;
     }
+
+    // Function to compute the smallest prime factor (SPF) for all numbers from 1 to n.
+    vector<ll> smallestPrimeFactor(ll n) {
+        // Initialize spf array where each number is initially assumed to be its own SPF.
+        vector<ll> spf(n + 1);
+        for (ll i = 1; i <= n; i++) {
+            spf[i] = i;
+        }
+        
+        // Use a sieve-like method to update spf for composite numbers.
+        // Note: We start from 2 since 1 is not prime.
+        for (ll i = 2; i * i <= n; i++) {
+            // If i is still marked as its own smallest factor, then it is prime.
+            if (spf[i] == i) {
+                // Mark i as a factor for its multiples if they haven't been marked yet.
+                for (ll j = i * i; j <= n; j += i) {
+                    if (spf[j] == j) {
+                        spf[j] = i;
+                    }
+                }
+            }
+        }
+        return spf;
+    }
 };
 
 int main(){
@@ -95,5 +119,11 @@ int main(){
     cout << "\n";
     cout << "Total primes in the range: " << primeList.size() << "\n";
     cout << "Total primes up to " << R << ": " << allPrimes.size() << "\n";
+    vector<ll> spf = sol.smallestPrimeFactor(R);
+    cout << "Smallest prime factors up to " << R << ": ";
+    for(ll i = 2; i <= R; i++) {
+        cout << spf[i] << " ";
+    }
+    cout << "\n";
     return 0;
 }
