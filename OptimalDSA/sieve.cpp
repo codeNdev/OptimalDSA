@@ -49,8 +49,9 @@ class Solution {
         
         // Collect all primes from the segmented sieve
         for(ll i = 0; i < count; i++){
-            if(segSieve[i])
-                primes.push_back(l + i);
+            if(segSieve[i]){
+               primes.push_back(l + i);
+            } 
         }
         return primes;
     }
